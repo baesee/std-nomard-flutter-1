@@ -108,6 +108,7 @@ class MyApp extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Container(
+                clipBehavior: Clip.hardEdge, // 컨테이너 영역을 벗어난 것에 대해 사라지게 만든다.
                 decoration: BoxDecoration(
                   color: const Color(0xFF1F2123),
                   borderRadius: BorderRadius.circular(25),
@@ -152,13 +153,13 @@ class MyApp extends StatelessWidget {
                         ],
                       ),
                       Transform.scale(
-                        scale: 2.2,
+                        scale: 2,
                         child: Transform.translate(
-                          offset: const Offset(5, 20),
+                          offset: const Offset(1, 15),
                           child: const Icon(
                             Icons.euro_rounded,
                             color: Colors.white,
-                            size: 88,
+                            size: 83,
                           ),
                         ),
                       ),
