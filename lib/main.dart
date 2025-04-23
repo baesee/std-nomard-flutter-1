@@ -1,305 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/widgets/button.dart';
-import 'package:toonflix/widgets/currency_card.dart';
-
-class Player {
-  String name;
-
-  Player({required this.name});
-}
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  int counter = 0;
+  List<int> numbers = [];
+
+  void onClicked(String type) {
+    setState(() {
+      if (type == 'plus') {
+        counter = counter + 1;
+        numbers.add(numbers.length);
+      } else if (type == 'minus') {
+        counter = counter - 1;
+        numbers.removeLast();
+      }
+      print('넘버스 : $numbers');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: const Color(0xFF181818),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Hey, Selena',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'Welcome back',
-                          style: TextStyle(
-                            color: Colors.white.withAlpha(150),
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Row(children: [Text('Hello'), Text('World')]),
-                const SizedBox(height: 70),
-                Text(
-                  'Total Balance',
-                  style: TextStyle(
-                    color: Colors.white.withAlpha(80),
-                    fontSize: 22,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  '\$5,194,482',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 42,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Button(
-                      text: 'Transfer',
-                      bgColor: Colors.amber,
-                      textColor: Colors.black,
-                    ),
-                    Button(
-                      text: 'Request',
-                      bgColor: Color(0xFF1F2123),
-                      textColor: Colors.white,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 100),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Wallet',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'Veiw All',
-                      style: TextStyle(
-                        color: Colors.white.withAlpha(80),
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const CurrencyCard(
-                  name: 'Euro',
-                  code: 'EUR',
-                  amount: '5 428',
-                  icon: Icons.euro_rounded,
-                  isInverted: false,
-                  order: 0,
-                ),
-                const CurrencyCard(
-                  name: 'Bitcoin',
-                  code: 'BTC',
-                  amount: '9 785',
-                  icon: Icons.currency_bitcoin,
-                  isInverted: true,
-                  order: 1,
-                ),
-                const CurrencyCard(
-                  name: 'Dollar',
-                  code: 'USD',
-                  amount: '4 128',
-                  icon: Icons.attach_money_rounded,
-                  isInverted: false,
-                  order: 2,
-                ),
-              ],
-            ),
+        backgroundColor: const Color(0xFFF4EDDB),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Click Count',
+                style: TextStyle(color: Colors.red, fontSize: 20),
+              ),
+              // Text(
+              //   '$counter',
+              //   style: const TextStyle(color: Colors.black, fontSize: 20),
+              // ),
+              for (var n in numbers) Text('$n'),
+              IconButton(
+                onPressed: () => onClicked('plus'),
+                iconSize: 40,
+                icon: const Icon(Icons.add_box_rounded),
+              ),
+              IconButton(
+                onPressed: () => onClicked('minus'),
+                iconSize: 40,
+                icon: const Icon(Icons.remove_circle_rounded),
+              ),
+              IconButton(
+                onPressed: () => onClicked('stop'),
+                iconSize: 40,
+                icon: const Icon(Icons.stop_circle_rounded),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-/*
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
-      ),
-      home: const MyHomePage(title: 'Flutter 스터디 홈'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _redScore = 0;
-  int _blueScore = 0;
-
-  void _incrementRedScore() {
-    setState(() {
-      _redScore++;
-    });
-  }
-
-  void _incrementBlueScore() {
-    setState(() {
-      _blueScore++;
-    });
-  }
-
-  bool _isInRedArea(Offset position, Size size) {
-    final path =
-        Path()
-          ..moveTo(0, 0)
-          ..lineTo(size.width, 0)
-          ..lineTo(0, size.height)
-          ..close();
-    return path.contains(position);
-  }
-
-  bool _isInBlueArea(Offset position, Size size) {
-    final path =
-        Path()
-          ..moveTo(size.width, 0)
-          ..lineTo(size.width, size.height)
-          ..lineTo(0, size.height)
-          ..close();
-    return path.contains(position);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: CustomPaint(
-              painter: DiagonalPainter(
-                color: Colors.red.withOpacity(0.3),
-                isTop: true,
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: CustomPaint(
-              painter: DiagonalPainter(
-                color: Colors.blue.withOpacity(0.3),
-                isTop: false,
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: GestureDetector(
-              onTapDown: (details) {
-                final size = MediaQuery.of(context).size;
-                if (_isInRedArea(details.localPosition, size)) {
-                  _incrementRedScore();
-                } else if (_isInBlueArea(details.localPosition, size)) {
-                  _incrementBlueScore();
-                }
-              },
-              child: Container(color: Colors.transparent),
-            ),
-          ),
-          Positioned(
-            left: 20,
-            top: 20,
-            child: Text(
-              '$_redScore',
-              style: const TextStyle(
-                fontSize: 100,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          Positioned(
-            right: 20,
-            bottom: 20,
-            child: Text(
-              '$_blueScore',
-              style: const TextStyle(
-                fontSize: 100,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DiagonalPainter extends CustomPainter {
-  final Color color;
-  final bool isTop;
-
-  DiagonalPainter({required this.color, required this.isTop});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.fill;
-
-    final path = Path();
-    if (isTop) {
-      path.moveTo(0, 0);
-      path.lineTo(size.width, 0);
-      path.lineTo(0, size.height);
-      path.close();
-    } else {
-      path.moveTo(size.width, 0);
-      path.lineTo(size.width, size.height);
-      path.lineTo(0, size.height);
-      path.close();
-    }
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-*/
